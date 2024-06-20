@@ -1,2 +1,6 @@
+# Python related
 .env
+__pycache__
+
+# Mac OS relatex
 *.DS_Store
