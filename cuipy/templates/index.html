@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>CuiApp: {{ title }}</title>
+    </head>
+    <body>
+        <h1>{{ title }}</h1>
+        <p>{{ description }}</p>
+        <form method="post">
+            <h2>Store</h2>
+            {% for dest, action in action_lists.store.items() %}
+                <div>
+                    <label for="store::{{ dest }}">{{ dest }} {% if action.option_strings|length > 0 %}{{ action.option_strings }}{% endif %} ({{ action.type }}, {% if action.required %}<strong>required</strong>{% endif %})</label>
+                    <input type="text" id="{{ dest }}" name="store::{{ dest }}"  {% if action.value is not none %}value="{{ action.value }}"{% endif %} {% if action.required %} required {% endif %}>
+                    <p><i>{{ action.help }}</i></p>
+                </div>
+            {% endfor %}
+            <h2>Store constant</h2>
+            {% for dest, action in action_lists.store_const.items() %}
+                <div>
+                    <input type="checkbox" id="{{ dest }}" name="store_const::{{ dest }}" value="{{ action.const }}" {% if action.triggered %}checked{% endif %}>
+                    <label for="store_const::{{ dest }}">{{ dest }} {{ action.option_strings }}</label>
+                    <p><i>{{ action.help }}</i></p>
+                </div>
+            {% endfor %}
+            <h2>Append</h2>
+            <!-- TODO -->
+            <h2>Append constant</h2>
+            <!-- TODO -->
+            <h2>Count</h2>
+            <!-- TODO -->
+            <button type="submit">Send</button>
+        </form>
+    </body>
+</html>
