@@ -33,10 +33,29 @@ def get_parser() -> ArgumentParser:
 
 
 def main(args: Namespace):
-    pass
+    print(args)
+    if args.operation == "add":
+        if args.verbose:
+            print(f"Addition between {args.a} and {args.b}.")
+        res = args.a + args.b
+    elif args.operation == "subtract":
+        if args.verbose:
+            print(f"Substraction of {args.a} by {args.b}.")
+        res = args.a - args.b
+    elif args.operation == "multiply":
+        if args.verbose: 
+            print(f"Multiplication between {args.a} and {args.b}.")
+        res = args.a * args.b
+    elif args.operation == "divide":
+        if args.verbose: 
+            print(f"Division of {args.a} by {args.b}.")
+        res = args.a / args.b
+    else:
+        raise ValueError(f"Invalid operation: {args.operation}")
+    print(res)
 
 
 # Ensure the script runs only when executed directly
 if __name__ == "__main__":
     cuiapp = CuiApp(main, get_parser())
-    cuiapp.run(True)
+    cuiapp.run(debug=True)

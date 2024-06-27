@@ -18,7 +18,7 @@ class CuiApp:
         self._parser = parser
         self._fn = function
     
-    def run(self, debug: bool = False) -> None:
+    def run(self, host: int | None = None, port: int | None = None, debug: bool = False) -> None:
         args = argv[1:]
         # if the cui command is not given, then we do not run the app
         if _cui_command not in args:
@@ -28,14 +28,17 @@ class CuiApp:
         
         # launch web app
         app = Flask(
-            f"{__name__}_CuiApp", 
+            __name__, 
             template_folder=os.path.join(os.path.dirname(__file__), "templates")
         )
 
-        @app.route("/cui", methods=["GET", "POST"])
+        @app.route("/", methods=["GET", "POST"])
         def index():
             if request.method == "POST":
                 self._action_lists.update_from_web_form(request.form)
+                raw_args = self._action_lists.to_args()
+                namespace, _ = self._parser.parse_known_args(raw_args)
+                self._fn(namespace)
             return render_template(
                 "index.html",
                 title=self._parser.prog,
@@ -43,6 +46,6 @@ class CuiApp:
                 action_lists=self._action_lists,
             )
         
-        app.run(debug=debug)
+        app.run(host, port, debug)
 
         
