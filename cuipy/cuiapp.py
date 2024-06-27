@@ -34,16 +34,21 @@ class CuiApp:
 
         @app.route("/", methods=["GET", "POST"])
         def index():
+            command = None
             if request.method == "POST":
                 self._action_lists.update_from_web_form(request.form)
                 raw_args = self._action_lists.to_args()
                 namespace, _ = self._parser.parse_known_args(raw_args)
                 self._fn(namespace)
+                # print the python command
+                raw_args = ["python", self._parser.prog] + raw_args
+                command = " ".join(raw_args)
             return render_template(
                 "index.html",
                 title=self._parser.prog,
                 description=self._parser.description, 
                 action_lists=self._action_lists,
+                command=command,
             )
         
         app.run(host, port, debug)

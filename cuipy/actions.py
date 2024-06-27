@@ -55,6 +55,7 @@ class ActionLists:
                 action_dict["value"] = value if action_dict["type"] is None else action_dict["type"](value)
             elif group == "store_const":
                 action_dict["triggered"] = True
+            # TODO: the rest of the actions
             else:
                 raise ValueError(f"Invalid group ({group}) or invalid argument ({dest}) inside the CuiApp form.")
             
